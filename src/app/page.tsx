@@ -1,4 +1,11 @@
-export default function Home() {
+"use client";
+
+import { useRouter } from "next/navigation";
+
+export default function Page() {
+  const router = useRouter();
+
+
   return (
     <main className="min-h-screen bg-[var(--color-background)]">
 
@@ -27,8 +34,10 @@ export default function Home() {
           </h2>
 
           <div className="flex flex-col gap-3">
-            <div className="rounded border border-[var(--color-border)] p-4 hover:bg-gray-50">
-              問題1：・・・
+            <div className="rounded border border-[var(--color-border)]">
+              <button className="w-full h-full p-4 hover:bg-gray-50 text-start" onClick={() => router.push("/question/")}>
+                問題1：・・・
+              </button>
             </div>
             <div className="rounded border border-[var(--color-border)] p-4 hover:bg-gray-50">
               問題2：・・・
