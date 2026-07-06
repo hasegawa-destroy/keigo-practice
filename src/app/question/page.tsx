@@ -1,12 +1,6 @@
 export default function Page() {
     return (
         <main className="min-h-screen bg-[var(--color-background)]">
-
-            {/* ヘッダー */}
-            <header className="w-full bg-[var(--color-primary)] py-8 text-center text-white">
-                <h1 className="text-3xl font-bold">敬語練習</h1>
-            </header>
-
             <div className="mt-10 mx-auto max-w-4xl p-8">
 
                 {/* サイト概要 */}
@@ -33,7 +27,7 @@ export default function Page() {
                     </div>
 
                     <div className="p-6">
-                        <textarea className="w-full rounded-lg border border-[var(--color-border)]" />
+                        <textarea className="w-full h-40 resize-none rounded-lg p-2 border border-[var(--color-border)]" />
                         <div>
                             <p className="">0文字</p>
                         </div>
