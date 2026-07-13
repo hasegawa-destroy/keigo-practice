@@ -1,11 +1,6 @@
-"use client";
-
-import { useRouter } from "next/navigation";
+import QuestionList from "./components/QuestionList";
 
 export default function Page() {
-  const router = useRouter();
-
-
   return (
     <main className="min-h-screen bg-[var(--color-background)]">
       <div className="mt-10 mx-auto max-w-4xl p-8">
@@ -33,19 +28,7 @@ export default function Page() {
             </h2>
           </div>
 
-          <div className="flex flex-col p-6 gap-3">
-            <div className="rounded border border-[var(--color-border)]">
-              <button className="w-full h-full p-4 hover:bg-gray-50 text-start" onClick={() => router.push("/question/")}>
-                問題1：・・・
-              </button>
-            </div>
-            <div className="rounded border border-[var(--color-border)] p-4 hover:bg-gray-50">
-              問題2：・・・
-            </div>
-            <div className="rounded border border-[var(--color-border)] p-4 hover:bg-gray-50">
-              問題3：・・・
-            </div>
-          </div>
+          <QuestionList />
         </section>
 
       </div>
