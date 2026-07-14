@@ -1,9 +1,52 @@
+"use client";
+
+import { useState } from "react";
+
 export default function Page() {
+    const [text, setText] = useState("");
+    const [result, setResult] = useState<any>(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+    // 添削
+    const reviewText = async (text: string) => {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/review`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    text,
+                }),
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("添削API呼び出しに失敗しました。");
+        }
+
+        return await response.json();
+    };
+
+    const handleAnswer = async () => {
+        try {
+            setErrorMessage(null);
+            const result = await reviewText(text);
+            setResult(result);
+
+        } catch (error) {
+            console.error(error);
+            setErrorMessage(
+                "添削処理に失敗しました。時間をおいて再度お試しください。"
+            );
+        }
+    };
     return (
         <main className="min-h-screen bg-[var(--color-background)]">
             <div className="mt-10 mx-auto max-w-4xl p-8">
 
-                {/* サイト概要 */}
+                {/* 問題文 */}
                 <section className="mb-6 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)]">
                     <div className="w-full rounded-t-lg bg-[var(--color-primary)] px-6 py-4">
                         <h2 className="text-xl font-semibold text-[var(--color-surface)]">
@@ -18,8 +61,8 @@ export default function Page() {
                     </div>
                 </section>
 
-                {/* 問題一覧 */}
-                <section className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)]">
+                {/* 回答 */}
+                <section className="mb-6 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)]">
                     <div className="w-full rounded-t-lg bg-[var(--color-primary)] px-6 py-4">
                         <h2 className="text-xl font-semibold text-[var(--color-surface)]">
                             回答
@@ -27,17 +70,49 @@ export default function Page() {
                     </div>
 
                     <div className="p-6">
-                        <textarea className="w-full h-40 resize-none rounded-lg p-2 border border-[var(--color-border)]" />
+                        <textarea
+                            value={text}
+                            onChange={(e) => setText(e.target.value)}
+                            className="w-full h-40 resize-none rounded-lg p-2 border border-[var(--color-border)]"
+                        />
                         <div>
                             <p className="">0文字</p>
                         </div>
                         <div className="flex justify-center">
-                            <button className="rounded-lg bg-[var(--color-primary)] text-[var(--color-surface)] px-8 py-4">回答する</button>
+                            <button
+                                onClick={handleAnswer}
+                                className="rounded-lg bg-[var(--color-primary)] text-[var(--color-surface)] px-8 py-4">
+                                回答する</button>
                         </div>
                     </div>
                 </section>
 
-            </div>
-        </main>
+                {/* 添削結果 */}
+                {result && (
+                    <section className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)]">
+
+                        <div className="w-full rounded-t-lg bg-[var(--color-primary)] px-6 py-4">
+                            <h2 className="text-xl font-semibold text-[var(--color-surface)]">
+                                添削結果
+                            </h2>
+                        </div>
+
+                        <div className="p-6">
+                            <p className="text-[var(--color-text-light)]">
+                                {result.message}
+                            </p>
+                        </div>
+                    </section>
+                )}
+
+                {/* エラー */}
+                {errorMessage && (
+                    <div className="mt-4 rounded-lg border border-red-400 bg-red-50 p-4 text-red-700">
+                        {errorMessage}
+                    </div>
+                )}
+
+            </div >
+        </main >
     );
 }
