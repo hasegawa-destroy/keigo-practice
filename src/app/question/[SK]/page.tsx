@@ -1,11 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+
+type Props = {
+    params: Promise<{
+        SK: string;
+    }>;
+};
 
 export default function Page() {
     const [text, setText] = useState("");
     const [result, setResult] = useState<any>(null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [question, setQuestion] = useState<any>(null);
+
+    const params = useParams();
+    const SK = params.SK as string;
 
     // 添削
     const reviewText = async (text: string) => {
@@ -44,6 +55,27 @@ export default function Page() {
             );
         }
     };
+
+    // 問題文取得
+    useEffect(() => {
+        const fetchQuestion = async () => {
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/quiz/${SK}`
+            );
+
+            const data = await res.json();
+            setQuestion(data);
+        };
+
+        if (SK) {
+            fetchQuestion();
+        }
+    }, [SK]);
+
+    if (!question) {
+        return <div>読み込み中...</div>;
+    }
+
     return (
         <main className="min-h-screen bg-[var(--color-background)]">
             <div className="mt-10 mx-auto max-w-4xl p-8">
@@ -58,7 +90,7 @@ export default function Page() {
 
                     <div className="p-6">
                         <p className="text-[var(--color-text-light)]">
-                            問題文...
+                            {question.Question}
                         </p>
                     </div>
                 </section>
