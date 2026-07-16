@@ -33,6 +33,8 @@ export default function Page() {
         try {
             setErrorMessage(null);
             const result = await reviewText(text);
+
+            console.log(result);
             setResult(result);
 
         } catch (error) {
@@ -98,9 +100,29 @@ export default function Page() {
                         </div>
 
                         <div className="p-6">
-                            <p className="text-[var(--color-text-light)]">
-                                {result.message}
-                            </p>
+                            {/* 点数 */}
+                            <div className="flex w-full justify-center items-end gap-2 mb-6">
+                                <p className="text-2xl text-[var(--color-text-light)]">
+                                    {result.score}
+                                </p>
+                                <p className="text-lg">点</p>
+                            </div>
+
+                            {/* 模範解答 */}
+                            <div className="mb-6">
+                                <p className="text-lg">模範解答</p>
+                                <p className="text-[var(--color-text-light)]">
+                                    {result.corrected}
+                                </p>
+                            </div>
+
+                            {/* コメント */}
+                            <div>
+                                <p className="text-lg">コメント</p>
+                                <p className="text-[var(--color-text-light)]">
+                                    {result.explanation}
+                                </p>
+                            </div>
                         </div>
                     </section>
                 )}
