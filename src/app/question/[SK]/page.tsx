@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Loading from "@/app/components/layout/loading/Loading";
 
 type Props = {
     params: Promise<{
@@ -14,6 +15,7 @@ export default function Page() {
     const [result, setResult] = useState<any>(null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [question, setQuestion] = useState<any>(null);
+    const [isResultLoading, setIsResultLoading] = useState(false);
 
     const params = useParams();
     const SK = params.SK as string;
@@ -41,6 +43,8 @@ export default function Page() {
     };
 
     const handleAnswer = async () => {
+        setIsResultLoading(true);
+
         try {
             setErrorMessage(null);
             const result = await reviewText(text);
@@ -53,6 +57,8 @@ export default function Page() {
             setErrorMessage(
                 "添削処理に失敗しました。時間をおいて再度お試しください。"
             );
+        } finally {
+            setIsResultLoading(false);
         }
     };
 
@@ -73,11 +79,15 @@ export default function Page() {
     }, [SK]);
 
     if (!question) {
-        return <div>読み込み中...</div>;
+        return <><Loading /></>
     }
 
     return (
         <main className="min-h-screen bg-[var(--color-background)]">
+
+            {/* ロード演出 */}
+            {isResultLoading && <Loading />}
+
             <div className="mt-10 mx-auto max-w-4xl p-8">
 
                 {/* 問題文 */}
