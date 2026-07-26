@@ -1,14 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 import Loading from "@/app/components/layout/loading/Loading";
-
-type Props = {
-    params: Promise<{
-        SK: string;
-    }>;
-};
 
 export default function Page() {
     const [text, setText] = useState("");
@@ -17,6 +11,8 @@ export default function Page() {
     const [question, setQuestion] = useState<any>(null);
     const [isResultLoading, setIsResultLoading] = useState(false);
 
+    const router = useRouter();
+    const resultRef = useRef<HTMLDivElement | null>(null);
     const params = useParams();
     const SK = params.SK as string;
 
@@ -51,6 +47,14 @@ export default function Page() {
 
             console.log(result);
             setResult(result);
+
+            // カメラ移動
+            requestAnimationFrame(() => {
+                resultRef.current?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                });
+            });
 
         } catch (error) {
             console.error(error);
@@ -133,7 +137,7 @@ export default function Page() {
 
                 {/* 添削結果 */}
                 {result && (
-                    <section className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)]">
+                    <section ref={resultRef} className="mb-6 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)]">
 
                         <div className="w-full rounded-t-lg bg-[var(--color-primary)] px-6 py-4">
                             <h2 className="text-xl font-semibold text-[var(--color-surface)]">
@@ -175,6 +179,24 @@ export default function Page() {
                         {errorMessage}
                     </div>
                 )}
+
+                {/* ボタン群 */}
+                <div className="flex justify-center gap-8 mt-16 px-16">
+                    <button
+                        onClick={() => router.push(`/`)}
+                        className="flex-1 rounded-lg bg-[var(--color-secondary)] text-[var(--color-surface)] px-8 py-4">
+                        問題一覧に戻る
+                    </button>
+
+                    {question.NextQuestion && (
+                        <button
+                            onClick={() => router.push(`/question/${question.NextQuestion}`)}
+                            className="flex-1 rounded-lg bg-[var(--color-primary)] text-[var(--color-surface)] px-8 py-4"
+                        >
+                            次の問題
+                        </button>
+                    )}
+                </div>
 
             </div >
         </main >
