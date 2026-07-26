@@ -158,7 +158,7 @@ export default function Page() {
                             <div className="mb-6">
                                 <p className="text-lg">模範解答</p>
                                 <p className="text-[var(--color-text-light)]">
-                                    {result.corrected}
+                                    {question.Answer}
                                 </p>
                             </div>
 
