@@ -9,7 +9,7 @@ type Question = {
     Title: string;
 };
 
-export default function QuestionList() {
+export default function QuizList() {
     const router = useRouter();
     const [questions, setQuestions] = useState<Question[]>([]);
 
@@ -17,7 +17,7 @@ export default function QuestionList() {
     useEffect(() => {
         const fetchQuestions = async () => {
             const res = await fetch(
-                process.env.NEXT_PUBLIC_API_URL + "/quizzes/review"
+                process.env.NEXT_PUBLIC_API_URL + "/quizzes/choice"
             );
 
             const data = await res.json();
@@ -40,7 +40,7 @@ export default function QuestionList() {
                 >
                     <button
                         className="h-full w-full p-4 text-start hover:bg-gray-50"
-                        onClick={() => router.push(`/question/${question.SK}`)}
+                        onClick={() => router.push(`/question/choice/${question.SK}`)}
                     >
                         {question.Title}
                     </button>

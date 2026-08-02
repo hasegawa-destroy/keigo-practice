@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import Loading from "@/app/components/layout/loading/Loading";
 
 export default function Page() {
-    const [text, setText] = useState("");
+    const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
     const [result, setResult] = useState<any>(null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [question, setQuestion] = useState<any>(null);
@@ -16,37 +16,18 @@ export default function Page() {
     const params = useParams();
     const SK = params.SK as string;
 
-    // 添削
-    const reviewText = async (text: string) => {
-        const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/review`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    text,
-                }),
-            }
-        );
-
-        if (!response.ok) {
-            throw new Error("添削API呼び出しに失敗しました。");
-        }
-
-        return await response.json();
-    };
-
+    // 回答
     const handleAnswer = async () => {
         setIsResultLoading(true);
 
         try {
             setErrorMessage(null);
-            const result = await reviewText(text);
 
-            console.log(result);
-            setResult(result);
+            if (selectedChoice == null) {
+                setErrorMessage("選択肢を選んでください。");
+                return;
+            }
+            setResult({ correct: selectedChoice === Number(question.Answer) });
 
             // カメラ移動
             requestAnimationFrame(() => {
@@ -59,7 +40,7 @@ export default function Page() {
         } catch (error) {
             console.error(error);
             setErrorMessage(
-                "添削処理に失敗しました。時間をおいて再度お試しください。"
+                "エラー"
             );
         } finally {
             setIsResultLoading(false);
@@ -70,7 +51,7 @@ export default function Page() {
     useEffect(() => {
         const fetchQuestion = async () => {
             const res = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/quiz/${SK}/review`
+                `${process.env.NEXT_PUBLIC_API_URL}/quiz/${SK}/choice`
             );
 
             const data = await res.json();
@@ -118,14 +99,24 @@ export default function Page() {
                     </div>
 
                     <div className="p-6">
-                        <textarea
-                            value={text}
-                            onChange={(e) => setText(e.target.value)}
-                            className="w-full h-40 resize-none rounded-lg p-2 border border-[var(--color-border)]"
-                        />
-                        <div>
-                            <p className="">0文字</p>
+                        <div className="flex flex-col gap-3 mb-4">
+                            {question.Choice.map((choice: string, index: number) => (
+                                <label
+                                    key={index}
+                                    className="flex items-center gap-3 rounded-lg border border-[var(--color-border)] p-4 cursor-pointer hover:bg-gray-50"
+                                >
+                                    <input
+                                        type="radio"
+                                        name="answer"
+                                        checked={selectedChoice === index + 1}
+                                        onChange={() => setSelectedChoice(index + 1)}
+                                    />
+
+                                    <span>{choice}</span>
+                                </label>
+                            ))}
                         </div>
+
                         <div className="flex justify-center">
                             <button
                                 onClick={handleAnswer}
@@ -146,27 +137,19 @@ export default function Page() {
                         </div>
 
                         <div className="p-6">
-                            {/* 点数 */}
+                            {/* 判定 */}
+
                             <div className="flex w-full justify-center items-end gap-2 mb-6">
                                 <p className="text-2xl text-[var(--color-text-light)]">
-                                    {result.score}
+                                    {result.correct ? "正解" : "不正解"}
                                 </p>
-                                <p className="text-lg">点</p>
                             </div>
 
                             {/* 模範解答 */}
                             <div className="mb-6">
-                                <p className="text-lg">模範解答</p>
+                                <p className="text-lg">正解</p>
                                 <p className="text-[var(--color-text-light)]">
-                                    {question.Answer}
-                                </p>
-                            </div>
-
-                            {/* コメント */}
-                            <div>
-                                <p className="text-lg">コメント</p>
-                                <p className="text-[var(--color-text-light)]">
-                                    {result.explanation}
+                                    {question.Choice[question.Answer - 1]}
                                 </p>
                             </div>
                         </div>
