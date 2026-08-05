@@ -124,7 +124,7 @@ export default function Page() {
                             className="w-full h-40 resize-none rounded-lg p-2 border border-[var(--color-border)]"
                         />
                         <div>
-                            <p className="">0文字</p>
+                            <p className="">{text.length} 文字</p>
                         </div>
                         <div className="flex justify-center">
                             <button
