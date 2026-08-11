@@ -21,9 +21,12 @@ export default function Page() {
             </h2>
           </div>
 
-          <div className="p-6">
-            <p className="text-[var(--color-text-light)]">
-              敬語の使い方を問題形式で学習できます。
+          <div className="p-6 text-[var(--color-text-light)]">
+            <p>
+              敬語をクイズと文章添削で楽しく練習できるWebアプリです。
+            </p>
+            <p>
+              ビジネスシーンや日常生活で使われる敬語を、4択問題と文章作成の2つの方法で学習できます。
             </p>
           </div>
         </section>

@@ -14,12 +14,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "敬語練習",
+  title: "敬語レビュアー",
   description: "敬語をクイズと文章添削で練習できるWebアプリです。4択問題で正しい敬語を選ぶ練習や、文章を作成して添削してもらう練習ができます。",
   keywords: ["敬語", "敬語練習", "練習", "AI", "添削", "レビュー"],
   robots: {
     index: true,
     follow: true,
+  },
+  openGraph: {
+    title: "敬語レビュアー | クイズと文章添削で敬語を学べるWebアプリ",
+    description:
+      "4択クイズと文章添削を通して、ビジネスや日常生活で使える敬語を練習できます。",
+    type: "website",
   },
 };
 
