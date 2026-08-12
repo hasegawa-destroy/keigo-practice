@@ -152,6 +152,14 @@ export default function Page() {
                                     {question.Choice[question.Answer - 1]}
                                 </p>
                             </div>
+
+                            {/* 解説 */}
+                            <div>
+                                <p className="text-lg">解説</p>
+                                <p className="text-[var(--color-text-light)]">
+                                    {question.Explanation}
+                                </p>
+                            </div>
                         </div>
                     </section>
                 )}
