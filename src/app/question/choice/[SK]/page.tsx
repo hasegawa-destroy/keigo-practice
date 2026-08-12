@@ -173,7 +173,7 @@ export default function Page() {
 
                     {question.NextQuestion && (
                         <button
-                            onClick={() => router.push(`/question/${question.NextQuestion}`)}
+                            onClick={() => router.push(`/question/choice/${question.NextQuestion}`)}
                             className="flex-1 rounded-lg bg-[var(--color-primary)] text-[var(--color-surface)] px-8 py-4"
                         >
                             次の問題
