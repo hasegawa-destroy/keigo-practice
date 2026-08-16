@@ -40,7 +40,7 @@ export default function Page() {
           </div>
 
           {/* タブ */}
-          <div className="flex flex-col justify-center mt-8 mb-2 mx-64 text-xl">
+          <div className="flex flex-col justify-center mt-8 mb-2 mx-8 md:mx-64 text-xl">
             <div className="flex divide-x-2 divide-[var(--color-secondary)] ">
               <button
                 onClick={() => setActiveTab("keigoPractice")}

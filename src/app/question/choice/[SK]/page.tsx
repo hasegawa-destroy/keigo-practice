@@ -73,7 +73,7 @@ export default function Page() {
             {/* ロード演出 */}
             {isResultLoading && <Loading />}
 
-            <div className="mt-10 mx-auto max-w-4xl p-8">
+            <div className="md:mt-10 mx-auto max-w-4xl p-4 md:p-8">
 
                 {/* 問題文 */}
                 <section className="mb-6 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)]">
@@ -172,17 +172,17 @@ export default function Page() {
                 )}
 
                 {/* ボタン群 */}
-                <div className="flex justify-center gap-8 mt-16 px-16">
+                <div className="flex flex-col md:flex-row justify-center gap-2 md:gap-8 md:mt-16 px-8 md:px-16">
                     <button
                         onClick={() => router.push(`/`)}
-                        className="flex-1 rounded-lg bg-[var(--color-secondary)] text-[var(--color-surface)] px-8 py-4">
+                        className="flex-1 rounded-lg bg-[var(--color-secondary)] text-[var(--color-surface)] px-8 py-3 md:py-4 order-2 md:order-1">
                         問題一覧に戻る
                     </button>
 
                     {question.NextQuestion && (
                         <button
                             onClick={() => router.push(`/question/choice/${question.NextQuestion}`)}
-                            className="flex-1 rounded-lg bg-[var(--color-primary)] text-[var(--color-surface)] px-8 py-4"
+                            className="flex-1 rounded-lg bg-[var(--color-primary)] text-[var(--color-surface)] px-8 py-3 md:py-4 order-1 md:order-2"
                         >
                             次の問題
                         </button>

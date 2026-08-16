@@ -39,7 +39,7 @@ export default function QuizList() {
                     className=""
                 >
                     <button
-                        className="h-full w-full p-4 text-start hover:bg-gray-50"
+                        className="h-full w-full p-4 text-start text-sm md:text-lg hover:bg-gray-50"
                         onClick={() => router.push(`/question/choice/${question.SK}`)}
                     >
                         {question.Title}
