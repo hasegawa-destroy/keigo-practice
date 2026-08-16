@@ -17,7 +17,7 @@ export default function Page() {
     const SK = params.SK as string;
 
     // 添削
-    const reviewText = async (text: string) => {
+    const reviewText = async (text: string, question: string) => {
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/review`,
             {
@@ -27,6 +27,7 @@ export default function Page() {
                 },
                 body: JSON.stringify({
                     text,
+                    question,
                 }),
             }
         );
@@ -43,7 +44,7 @@ export default function Page() {
 
         try {
             setErrorMessage(null);
-            const result = await reviewText(text);
+            const result = await reviewText(text, question.Question);
 
             console.log(result);
             setResult(result);
