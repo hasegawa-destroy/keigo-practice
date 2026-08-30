@@ -19,7 +19,7 @@ export default function Page() {
     // 添削
     const reviewText = async (text: string, question: string) => {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/review`,
+            `${process.env.NEXT_PUBLIC_REVIEW_API_URL}/review`,
             {
                 method: "POST",
                 headers: {
