@@ -18,6 +18,15 @@ export default function Page() {
 
     // 添削
     const reviewText = async (text: string, question: string) => {
+        console.log(
+            "NEXT_PUBLIC_REVIEW_API_URL:",
+            process.env.NEXT_PUBLIC_REVIEW_API_URL
+        );
+        console.log(
+            "SK:",
+            SK
+        );
+
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_REVIEW_API_URL}/review`,
             {
