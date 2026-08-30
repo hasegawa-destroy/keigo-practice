@@ -18,14 +18,6 @@ export default function Page() {
 
     // 添削
     const reviewText = async (text: string, question: string) => {
-        console.log(
-            "NEXT_PUBLIC_REVIEW_API_URL:",
-            process.env.NEXT_PUBLIC_REVIEW_API_URL
-        );
-        console.log(
-            "SK:",
-            SK
-        );
 
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_REVIEW_API_URL}/review`,
@@ -194,14 +186,20 @@ export default function Page() {
                 <div className="flex flex-col md:flex-row justify-center gap-2 md:gap-8 md:mt-16 px-8 md:px-16">
                     <button
                         onClick={() => router.push(`/`)}
-                        className="flex-1 rounded-lg bg-[var(--color-secondary)] text-[var(--color-surface)] px-8 py-3 md:py-4 order-2 md:order-1">
+                        className="flex-1 rounded-lg bg-[var(--color-secondary)] text-[var(--color-surface)] px-8 py-3 md:py-4 order-3 md:order-1">
                         問題一覧に戻る
                     </button>
+
+                    {result && (
+                        <button onClick={() => window.location.reload()} className="flex-1 rounded-lg bg-[var(--color-primary)] text-[var(--color-surface)] px-8 py-3 md:py-4 order-2 md:order-2s">
+                            もう一度挑戦
+                        </button>
+                    )}
 
                     {question.NextQuestion && (
                         <button
                             onClick={() => router.push(`/question/${question.NextQuestion}`)}
-                            className="flex-1 rounded-lg bg-[var(--color-primary)] text-[var(--color-surface)] px-8 py-3 md:py-4 order-1 md:order-2"
+                            className="flex-1 rounded-lg bg-[var(--color-primary)] text-[var(--color-surface)] px-8 py-3 md:py-4 order-1 md:order-3"
                         >
                             次の問題
                         </button>
